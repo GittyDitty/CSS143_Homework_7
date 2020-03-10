@@ -53,26 +53,66 @@ public class ArrayDictionary implements Dictionary {
         return true;
     }
 
-    // Delete the entry with the given key
+    // Delete the entry with the given key from the dictionary
     // Return true if an entry is deleted, false otherwise
     @Override
     public boolean remove(int key) {
         // homework
+        //if there are no entries to remove
+        if (count == 0){
+            return false; //no values to remove so it should return false (this should be the only case where it returns false)
+        }
+        for(int i=0; i< capacity; i++){
+            if(entries[i].key == key){
+                entries[i] = new KVEntry(0, 0);
+                count--;
+                return true;
+            }
+        }
         return false;
+
+//        while (ptr.next != null) {
+//            if (ptr.key == key) {
+//                ptr.next = ptr.next.next;
+//                count--;
+//            }
+//            ptr = ptr.next;
+//        }
+//        return true;
+    }
+
+    // Return true when the dictionary contains an entry
+    // with the key
+    @Override
+    public boolean contains(int key) {
+        // homework  //entries.length represents the testSize.
+        // pseudo: Start at the first entry (if there are any) and use a for loop to check at each entry if it equals the key
+        // if it does return true, otherwise return false
+        if(key > capacity){
+            return false;
+        }else {
+            for (int i = 0; i < capacity; i++) {
+                if(entries[i] == null){
+                    return false;
+                }
+                if(entries[i].next == null){
+                    if(entries[i].key == key){
+                        return true;
+                    }
+                }else if (entries[i].key == (key) || entries[i].next.key == (key)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     // Return the entry value with the given key
     // Return null if no entry exists with the given key
     @Override
     public Integer get(int key) {
-        // homework
+        // NOT IMPLEMENTED
         return null;
-    }
-
-    @Override
-    public boolean contains(int key) {
-        // not implemented
-        return false;
     }
 
     @Override
