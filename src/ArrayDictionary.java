@@ -63,22 +63,20 @@ public class ArrayDictionary implements Dictionary {
             return false; //no values to remove so it should return false (this should be the only case where it returns false)
         }
         for(int i=0; i< capacity; i++){
-            if(entries[i].key == key){
-                entries[i] = new KVEntry(0, 0);
-                count--;
+            if(entries[i] != null && entries[i].key == key){
+                KVEntry ptr = entries[i];
+                KVEntry ptr2 = null;
+                while(ptr != null) {
+                    ptr2 = ptr.next;
+                    ptr = null;
+                    ptr = ptr2;
+                    count--;
+                }
+                entries[i] = null;
                 return true;
             }
         }
         return false;
-
-//        while (ptr.next != null) {
-//            if (ptr.key == key) {
-//                ptr.next = ptr.next.next;
-//                count--;
-//            }
-//            ptr = ptr.next;
-//        }
-//        return true;
     }
 
     // Return true when the dictionary contains an entry
@@ -88,24 +86,25 @@ public class ArrayDictionary implements Dictionary {
         // homework  //entries.length represents the testSize.
         // pseudo: Start at the first entry (if there are any) and use a for loop to check at each entry if it equals the key
         // if it does return true, otherwise return false
-        if(key > capacity){
+        if(count == 0){
             return false;
-        }else {
+        }
             for (int i = 0; i < capacity; i++) {
-                if(entries[i] == null){
-                    return false;
+                KVEntry ptr = entries[i];
+                if(ptr == null){
+                    continue;
                 }
-                if(entries[i].next == null){
-                    if(entries[i].key == key){
-                        return true;
-                    }
-                }else if (entries[i].key == (key) || entries[i].next.key == (key)) {
-                    return true;
+                while(ptr != null){
+                     if(ptr.key == key){
+                         return true;
+                     }else{
+                         ptr = ptr.next;
+                     }
                 }
             }
             return false;
         }
-    }
+
 
     // Return the entry value with the given key
     // Return null if no entry exists with the given key
